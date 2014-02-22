@@ -44,10 +44,16 @@ def join_args(args, exp_len):
     if exp_len == 1:
         if len(args) > 1:
             args = [' '.join(args)]
+    elif exp_len == 2:
+        if len(args) > 2:
+            args = [args[0], ' '.join(args[1:])]
     elif exp_len == 3:
         if len(args) > 3:
             args = ' '.join(args)
             args = args.split("\"")
+    elif exp_len == "newgrade":
+        if len(args) > 3:
+            args = [args[0], ' '.join(args[1:-1]), args[-1]]
     return args 
 
 def check_for_quotes(args):
@@ -63,6 +69,20 @@ def check_for_quotes(args):
         wrong_quotes = True
     return wrong_quotes
 
+def get_grade_by_student_for_project(student_git, project_title):
+    query = """SELECT grade FROM Grades WHERE student_git = ? AND project_title = ?"""
+    DB.execute(query, (student_git, project_title))
+    row = DB.fetchone()
+    print """\
+%s's grade for the %s project is %s""" % (student_git, project_title, row[0])
+
+def add_new_grade(student_git, project_title, grade):
+    query = """INSERT INTO Grades (student_git, project_title, grade) VALUES (?,?,?)"""
+    DB.execute(query, (student_git, project_title, grade))
+    CONN.commit()
+    print """\
+Successfully added grade %s
+for %s for project %s""" % (grade, student_git, project_title)
 
 def main():
     connect_to_db()
@@ -78,7 +98,7 @@ def main():
         elif command == "new_student":
             make_new_student(*args)
         elif command == "project":
-            join_args(args, 1)
+            args = join_args(args, 1)
             find_project(*args)
         elif command == "new_project":
             formatting_error = False
@@ -93,8 +113,10 @@ def main():
             else:
                 print "Please put project name and description in double quotes"
         elif command == "student_grade_for":
+            args = join_args(args, 2)
             get_grade_by_student_for_project(*args)
         elif command == "new_grade":
+            args = join_args(args, "newgrade")
             add_new_grade(*args)
         elif command == "student_grades":
             get_grades_by_student(*args)
