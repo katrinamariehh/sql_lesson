@@ -23,13 +23,13 @@ def make_new_student(first_name, last_name, git):
     print "Successfully added student: %s %s" % (first_name, last_name)
 
 def find_project(project):
-    query = """SELECT * FROM Projects WHERE title = ?"""
+    query = """SELECT title, description, max_grade FROM Projects WHERE title = ?"""
     DB.execute(query, (project,))
     row = DB.fetchone()
     print """\
 Project: %s
 Description: %s
-Max Grade: %s""" % (row[1], row[2], row[3])
+Max Grade: %s""" % (row[0], row[1], row[2])
 
 def make_new_project(title, description, max_grade):
     query = """INSERT INTO Projects (title, description, max_grade) VALUES (?, ?, ?)"""
@@ -39,35 +39,6 @@ def make_new_project(title, description, max_grade):
 Successfully added project: %s
 Description: %s
 Max Grade: %s""" % (title, description, max_grade)
-
-def join_args(args, exp_len):
-    if exp_len == 1:
-        if len(args) > 1:
-            args = [' '.join(args)]
-    elif exp_len == 2:
-        if len(args) > 2:
-            args = [args[0], ' '.join(args[1:])]
-    elif exp_len == 3:
-        if len(args) > 3:
-            args = ' '.join(args)
-            args = args.split("\"")
-    elif exp_len == "newgrade":
-        if len(args) > 3:
-            args = [args[0], ' '.join(args[1:-1]), args[-1]]
-    return args 
-
-def check_for_quotes(args):
-    wrong_quotes = False
-    double_quotes = 0
-    for arg in args:
-        if arg[0] == "'":
-            wrong_quotes = True
-        if len(args) > 3:
-            if '"' in arg:
-                double_quotes += 1
-    if len(args) > 3 and (double_quotes != 2 or double_quotes != 4):
-        wrong_quotes = True
-    return wrong_quotes
 
 def get_grade_by_student_for_project(student_git, project_title):
     query = """SELECT grade FROM Grades WHERE student_git = ? AND project_title = ?"""
@@ -94,39 +65,44 @@ def get_grades_by_student(student_git):
 def main():
     connect_to_db()
     command = None
+    print "Please input arguments separated by commas"
     while command != "quit":
         input_string = raw_input("HBA Database> ")
-        tokens = input_string.split()
+        tokens = input_string.split(None, 1)
         command = tokens[0]
-        args = tokens[1:]
+        argstring = tokens[1]
+        args = [ arg.strip() for arg in argstring.split(',') ]
+
 
         if command == "student":
             get_student_by_git(*args) 
         elif command == "new_student":
             make_new_student(*args)
         elif command == "project":
-            args = join_args(args, 1)
-            find_project(*args)
-        elif command == "new_project":
-            formatting_error = False
-            if len(args) < 3:
-                formatting_error = True
-            if not check_for_quotes(args) and formatting_error == False:
-                if len(args) == 3:
-                    make_new_project(*args)
-                else:
-                    args = join_args(args, 3)
-                    make_new_project(*args)
+            if len(args) == 1:
+                find_project(*args)
             else:
-                print "Please put project name and description in double quotes"
+                print "Please give exactly one argument"
+        elif command == "new_project":
+            if len(args) == 3:
+                make_new_project(*args)
+            else:
+                print "Please give exactly 3 arguments"
         elif command == "student_grade_for":
-            args = join_args(args, 2)
-            get_grade_by_student_for_project(*args)
+            if len(args) == 2:
+                get_grade_by_student_for_project(*args)
+            else:
+                print "Please give exactly 2 arguments"
         elif command == "new_grade":
-            args = join_args(args, "newgrade")
-            add_new_grade(*args)
+            if len(args) == 3:
+                add_new_grade(*args)
+            else:
+                print "Please give exactly 3 arguments"
         elif command == "student_grades":
-            get_grades_by_student(*args)
+            if len(args) == 1:
+                get_grades_by_student(*args)
+            else:
+                print "Please give exactly 1 argument"
 
     CONN.close()
 
