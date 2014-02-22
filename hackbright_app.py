@@ -84,6 +84,13 @@ def add_new_grade(student_git, project_title, grade):
 Successfully added grade %s
 for %s for project %s""" % (grade, student_git, project_title)
 
+def get_grades_by_student(student_git):
+    query = """SELECT project_title, grade FROM Grades WHERE student_git = ?"""
+    DB.execute(query, (student_git,))
+    rows = DB.fetchall()
+    for item in rows:
+        print "For project %s, %s's grade is %s" % (item[0], student_git, item[1])
+
 def main():
     connect_to_db()
     command = None
