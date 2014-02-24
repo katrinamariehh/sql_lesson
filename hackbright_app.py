@@ -7,9 +7,7 @@ def get_student_by_git(git):
     query = """SELECT first_name, last_name, git FROM Students WHERE git = ?"""
     DB.execute(query, (git,))
     row = DB.fetchone()
-    print """\
-Student: %s %s
-Github account: %s"""%(row[0], row[1], row[2])
+    return row
 
 def connect_to_db():
     global DB, CONN
