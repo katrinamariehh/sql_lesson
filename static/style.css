@@ -1,0 +1,23 @@
+body {
+    width: 100%;
+    font-family: Helvetica, Arial, sans-serif;
+}
+a {
+    color: #27B3CC;
+}
+a:visited {
+    color: #6A9299;
+}
+.menu {
+    width: 25%;
+    float: left;
+    padding: 15px;
+    border-right: 3px solid #4AFFB6;
+    height: 100%
+}
+.main {
+    width: 60%;
+    margin-left: 10%;
+    float: left;
+    padding-top: 50px;
+}

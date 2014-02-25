@@ -47,9 +47,6 @@ def add_new_grade(student_git, project_title, grade):
     query = """INSERT INTO Grades (student_git, project_title, grade) VALUES (?,?,?)"""
     DB.execute(query, (student_git, project_title, grade))
     CONN.commit()
-    print """\
-Successfully added grade %s
-for %s for project %s""" % (grade, student_git, project_title)
 
 def get_grades_by_student(student_git):
     query = """SELECT project_title, grade, Projects.max_grade FROM Grades JOIN Projects ON (project_title = title) WHERE student_git = ?"""
