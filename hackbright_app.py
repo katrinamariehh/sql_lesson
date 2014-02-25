@@ -18,7 +18,8 @@ def make_new_student(first_name, last_name, git):
     query = """INSERT into Students values (?, ?, ?)"""
     DB.execute(query, (first_name, last_name, git))
     CONN.commit()
-    print "Successfully added student: %s %s" % (first_name, last_name)
+    return (first_name, last_name, git)
+    # print "Successfully added student: %s %s" % (first_name, last_name)
 
 def find_project(project):
     query = """SELECT title, description, max_grade FROM Projects WHERE title = ?"""
@@ -33,10 +34,7 @@ def make_new_project(title, description, max_grade):
     query = """INSERT INTO Projects (title, description, max_grade) VALUES (?, ?, ?)"""
     DB.execute(query, (title, description, max_grade))
     CONN.commit()
-    print """\
-Successfully added project: %s
-Description: %s
-Max Grade: %s""" % (title, description, max_grade)
+
 
 def get_grade_by_student_for_project(student_git, project_title):
     query = """SELECT grade FROM Grades WHERE student_git = ? AND project_title = ?"""
@@ -54,11 +52,16 @@ Successfully added grade %s
 for %s for project %s""" % (grade, student_git, project_title)
 
 def get_grades_by_student(student_git):
-    query = """SELECT project_title, grade FROM Grades WHERE student_git = ?"""
+    query = """SELECT project_title, grade, Projects.max_grade FROM Grades JOIN Projects ON (project_title = title) WHERE student_git = ?"""
     DB.execute(query, (student_git,))
     rows = DB.fetchall()
-    for item in rows:
-        print "For project %s, %s's grade is %s" % (item[0], student_git, item[1])
+    return rows
+
+def all_grades_for_project(project_title):
+    query = """SELECT project_title, grades.student_git, grades.grade FROM Projects JOIN Grades ON (title = Grades.project_title) WHERE project_title = ?"""
+    DB.execute(query, (project_title,))
+    rows = DB.fetchall()
+    return rows
 
 def main():
     connect_to_db()
@@ -99,6 +102,11 @@ def main():
         elif command == "student_grades":
             if len(args) == 1:
                 get_grades_by_student(*args)
+            else:
+                print "Please give exactly 1 argument"
+        elif command == "all_grades":
+            if len(args) == 1:
+                all_grades_for_project(*args)
             else:
                 print "Please give exactly 1 argument"
 

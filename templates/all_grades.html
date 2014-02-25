@@ -2,9 +2,10 @@
     <head>
     </head>
     <body>
+        <p>Project: {{rows[0][0]}}
         <ul>
             {% for row in rows %}
-                <li>Project: <a href="/project/{{row[0]}}">{{row[0]}}</a>; Grade: {{row[1]}}, Max Grade: {{row[2]}}</li>  
+                <li>Student: <a href="/student?github={{row[1]}}">{{row[1]}}</a>; Grade: {{row[2]}}</li>  
             {% endfor %}
         </ul>
     </body>
