@@ -1,10 +1,8 @@
-<html>
-    <head>
-    </head>
-    <body>
-        <p>New project successfully created:</p>
-        <p>Project Name: {{project_name}}</p>
-        <p>Description: {{description}}</p>
-        <p>Maximum grade: {{max_grade}}</p>
-    </body>
-</html>
+{% extends "main_template.html" %}
+{% block title %} - New Project Added{% endblock %}
+{% block content %}
+    <p>New project successfully created:</p>
+    <p>Project Name: {{project_name}}</p>
+    <p>Description: {{description}}</p>
+    <p>Maximum grade: {{max_grade}}</p>
+{% endblock %}

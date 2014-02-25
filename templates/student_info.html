@@ -1,24 +1,10 @@
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="style.css">
-    </head>
-    <body>
-        <div class="menu">
-            <ul>
-                <li><a href="/">Student lookup</a></li>
-                <li><a href="/">Project lookup</a></li>
-                <li><a href="/new_student">Add new student</a></li>
-                <li><a href="/new_project">Add new project</a></li>
-                <li><a href="/new_grade">Assign new grade</a></li>
-            </ul>
-        </div>
-        <div class="main">
-            <p>Username: {{github}}</p>
-            <ul>
-                {% for row in rows %}
-                    <li>Project: <a href="/project/{{row[0]}}">{{row[0]}}</a>; Grade: {{row[1]}}, Max Grade: {{row[2]}}</li>  
-                {% endfor %}
-            </ul>
-        </div>
-    </body>
-</html>
+{% extends "main_template.html" %}
+{% block title %} - Student Info{% endblock %}
+{% block content %}
+    <p>Username: {{github}}</p>
+    <ul>
+        {% for row in rows %}
+            <li>Project: <a href="/project?project={{row[0]}}">{{row[0]}}</a>; Grade: {{row[1]}}, Max Grade: {{row[2]}}</li>  
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -16,11 +16,14 @@ def get_student():
     html = render_template("student_info.html", github = student_git, rows = rows)
     return html
 
-@app.route("/project/<project_name>")
-def all_grades(project_name):
+@app.route("/project")
+def all_grades():
     hackbright_app.connect_to_db()
+    project_name = request.args.get("project")
     rows = hackbright_app.all_grades_for_project(project_name)
-    html = render_template("all_grades.html", rows = rows)
+    info = hackbright_app.find_project(project_name)
+    html = render_template("all_grades.html", rows = rows,
+                                              info = info)
     return html
 
 @app.route("/new_student")
@@ -67,7 +70,8 @@ def added_new_grade():
     grade = request.args.get("grade")
     hackbright_app.add_new_grade(student_git, project_name, grade)
     rows = hackbright_app.get_grades_by_student(student_git)
-    html = render_template("student_info.html", rows=rows)
+    html = render_template("student_info.html", rows=rows,
+                                                github=student_git)
     return html
 
 

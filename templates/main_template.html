@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <title>HBA Database{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <div class="menu">
+        <ul>
+            <li><a href="/">Search student or project</a></li>
+            <li><a href="/new_student">Add new student</a></li>
+            <li><a href="/new_project">Add new project</a></li>
+            <li><a href="/new_grade">Assign new grade</a></li>
+        </ul>
+    </div>
+    <div class="main">{% block content %}{% endblock %}</div>
+    <!-- <div id="footer">
+      {% block footer %}
+      &copy; Copyright 2010 by <a href="http://domain.invalid/">you</a>.
+      {% endblock %}
+    </div> -->
+  </body>
+</html>

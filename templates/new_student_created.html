@@ -1,9 +1,7 @@
-<html>
-    <head>
-    </head>
-    <body>
-        <p>New student successfully created:</p>
-        <p>Name: {{first_name}} {{last_name}}</p>
-        <p>Github Username: {{git}}</p>
-    </body>
-</html>
+{% extends "main_template.html" %}
+{% block title %} - New Student Added{% endblock %}
+{% block content %}
+    <p>New student successfully created:</p>
+    <p>Name: {{first_name}} {{last_name}}</p>
+    <p>Github Username: {{git}}</p>
+{% endblock %}

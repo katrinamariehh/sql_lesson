@@ -1,24 +1,13 @@
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="/static/style.css">
-    </head>
-    <body>
-        <div class="menu">
-            <ul>
-                <li><a href="/">Student lookup</a></li>
-                <li><a href="/">Project lookup</a></li>
-                <li><a href="/new_student">Add new student</a></li>
-                <li><a href="/new_project">Add new project</a></li>
-                <li><a href="/new_grade">Assign new grade</a></li>
-            </ul>
-        </div>
-        <div class="main">
-            <form action="/student">
-                <label for="github">Enter github id</label>
-                <input type="text" name="github" />
-                <input type="submit">
-            </form>
-        </div>
-    </body>
-</html>
-
+{% extends "main_template.html" %}
+{% block content %}
+    <form action="/student">
+        <label for="github">Enter github id</label>
+        <input type="text" name="github" />
+        <input type="submit">
+    </form>
+    <form action="/project">
+        <label for="project">Enter project name</label>
+        <input type="text" name="project" />
+        <input type="submit">
+    </form>
+{% endblock %}

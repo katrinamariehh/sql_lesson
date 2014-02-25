@@ -1,13 +1,13 @@
-<html>
-    <body>
-        <form action="/new_project/created">
-            <label for="project_name">Enter a title for the project</label>
-            <input type="text" name="project_name" />
-            <label for="description">Enter a description of the project</label>
-            <input type="text" name="description" />
-            <label for="max_grade">Enter the maximum grade for the project</label>
-            <input type="text" name="max_grade" />            
-            <input type="submit">
-        </form>
-    </body>
-</html>
+{% extends "main_template.html" %}
+{% block title %} - Add New Project{% endblock %}
+{% block content %}
+    <form action="/new_project/created">
+        <label for="project_name">Enter a title for the project</label>
+        <input type="text" name="project_name" /><br/>
+        <label for="description">Enter a description of the project</label>
+        <textarea cols="50" rows="5" name="description" /></textarea><br/>
+        <label for="max_grade">Enter the maximum grade for the project</label>
+        <input type="text" name="max_grade" /><br/>            
+        <input type="submit">
+    </form>
+{% endblock %}

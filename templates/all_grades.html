@@ -1,12 +1,12 @@
-<html>
-    <head>
-    </head>
-    <body>
-        <p>Project: {{rows[0][0]}}
+{% extends "main_template.html" %}
+{% block title %} - All Grades for {{info[0]}}{% endblock %}
+{% block content %}
+        <p>Project: {{info[0]}}</p>
+        <p>Description: {{info[1]}}</p>
+        <p>Max Grade: {{info[2]}}</p>
         <ul>
             {% for row in rows %}
                 <li>Student: <a href="/student?github={{row[1]}}">{{row[1]}}</a>; Grade: {{row[2]}}</li>  
             {% endfor %}
         </ul>
-    </body>
-</html>
+{% endblock %}

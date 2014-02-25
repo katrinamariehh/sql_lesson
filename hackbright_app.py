@@ -25,10 +25,7 @@ def find_project(project):
     query = """SELECT title, description, max_grade FROM Projects WHERE title = ?"""
     DB.execute(query, (project,))
     row = DB.fetchone()
-    print """\
-Project: %s
-Description: %s
-Max Grade: %s""" % (row[0], row[1], row[2])
+    return row
 
 def make_new_project(title, description, max_grade):
     query = """INSERT INTO Projects (title, description, max_grade) VALUES (?, ?, ?)"""
